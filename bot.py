@@ -34,6 +34,7 @@ async def check_clannie(name):
     msg = discord.Embed(color=EMBED_COLOR)          #Create the embed object
     msg.set_author(name=name, icon_url=chathead)    #Set the author
     msg.set_thumbnail(url=chathead)                 #Set the thumbnail
+    msg.set_footer(text=f'It can take up to {UPDATE} seconds to update the database. Direct requests @ Otto')
 
     found = False
 
