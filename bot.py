@@ -7,8 +7,8 @@ description = '''
     Returns information from the google spreadsheet.
     '''
 
-ERROR_CHANNEL: '223232913221746688' #Send errors to this channel
-TOKEN = 'MjcxNjc4NTAxMzMxOTI3MDQw.C3YMrw.7aRZVdL9qeXEb9mXExpGbY9A2iw'
+ERROR_CHANNEL: '' #Send errors to this channel
+TOKEN = ''
 UPDATE = 60 #Clan list update frequency in seconds
 TOP_RANKS = ['general', 'admin', 'organiser', 'coordinator', 'overseer', 'deputy owner', 'owner'] #Big boys can't rank up
 EMBED_COLOR = 0xff6666
