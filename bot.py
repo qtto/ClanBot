@@ -53,11 +53,11 @@ async def check_clannie(name):
                         msg.add_field(name='Rank up (caps)', value=str(clannie[4]))
                         msg.add_field(name='Rank up (XP)', value=str(clannie[5]))
 
-                    cap_message = ':negative_squared_cross_mark:'
-                    if clannie[3]:
-                        cap_message =  ':white_check_mark:'
+                    cap_mark = '👎'
+                    if clannie[3].lower() = 'yes':
+                        cap_mark = '👍'
 
-                    msg.add_field(name='Capped this week', value=cap_message, inline=False)
+                    msg.add_field(name=f'\nCapped this week: {cap_mark}', inline=False)
 
             if not found:
                 msg.add_field(name='Sorry!', value=f'{name} was not found in the database.')
