@@ -7,7 +7,6 @@ description = '''
     Returns information from the google spreadsheet.
     '''
 
-ERROR_CHANNEL: '' #Send errors to this channel
 TOKEN = ''
 UPDATE = 120 #Clan list update frequency in seconds
 TOP_RANKS = ['general', 'admin', 'organiser', 'coordinator', 'overseer', 'deputy owner', 'owner'] #Big boys can't rank up
@@ -57,7 +56,7 @@ async def check_clannie(name):
                     if clannie[3].lower() == 'yes':
                         cap_mark = '👍'
 
-                    msg.add_field(name=f'\nCapped this week: {cap_mark}', inline=False)
+                    msg.add_field(name='Capped this week', value=cap_mark, inline=False)
 
             if not found:
                 msg.add_field(name='Sorry!', value=f'{name} was not found in the database.')
@@ -78,7 +77,7 @@ async def on_ready():
 async def on_error(event, *args, **kwargs):
     err = sys.exc_info()
     fmt = 'I ran into an error: {}'
-    channel = discord.Object(id=ERROR_CHANNEL)
+    channel = discord.Object(id='223232913221746688')
     await client.send_message(channel, fmt.format(err))
 
 
@@ -89,11 +88,13 @@ async def on_message(message):
         return
 
     #Parse !clannie messages
-    elif message.content.lower().startswith('!clannie '):
+    elif message.content.lower().startswith('!clannie'):
         clannie = message.content[9:]
         if len(clannie) > 0:
             msg = await check_clannie(clannie)
             await client.send_message(message.channel, embed = msg)
+        else:
+            await client.send_message(message.channel, 'No RSN defined! (working on it)')
 
     elif message.content.startswith('!help'):
         await client.send_message(message.channel, '**Usage**: !clannie *name*')
