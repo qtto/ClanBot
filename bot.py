@@ -9,7 +9,7 @@ description = '''
 
 ERROR_CHANNEL: '' #Send errors to this channel
 TOKEN = ''
-UPDATE = 60 #Clan list update frequency in seconds
+UPDATE = 120 #Clan list update frequency in seconds
 TOP_RANKS = ['general', 'admin', 'organiser', 'coordinator', 'overseer', 'deputy owner', 'owner'] #Big boys can't rank up
 EMBED_COLOR = 0xff6666
 
@@ -54,7 +54,7 @@ async def check_clannie(name):
                         msg.add_field(name='Rank up (XP)', value=str(clannie[5]))
 
                     cap_mark = '👎'
-                    if clannie[3].lower() = 'yes':
+                    if clannie[3].lower() == 'yes':
                         cap_mark = '👍'
 
                     msg.add_field(name=f'\nCapped this week: {cap_mark}', inline=False)
