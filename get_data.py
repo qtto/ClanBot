@@ -35,15 +35,19 @@ async def get_data():
     spreadsheetId = '1kFeViTfq33UgGll6TptJN6qwoKmKDCUZf1L-cjK_6Fo'
     range_name =  'PublicView!B2:G502' #RSN / rank / CP / Cap status / next rank:caps / next rank:xp
 
-    result = service.spreadsheets().values().get(
-        spreadsheetId=spreadsheetId, range=range_name).execute()
+    try:
+        result = service.spreadsheets().values().get(
+            spreadsheetId=spreadsheetId, range=range_name).execute()
 
-    if result:
-        with open('spreadsheet.json', 'w') as f:
-            json.dump(result['values'], f)
+        if result:
+            with open('spreadsheet.json', 'w') as f:
+                json.dump(result['values'], f)
 
-    return result
+        return result
 
+    except Exception as e:
+        print(e)
+        return
 
 if __name__ == '__main__':
     get_data()

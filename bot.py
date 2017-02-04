@@ -19,11 +19,14 @@ client = discord.Client()   #Create the client object
 async def update_clannies():
     await client.wait_until_ready()
     while client.is_logged_in:
-        data = await get_data()
-        if not data:
-            print('Error getting data.')
-        await asyncio.sleep(UPDATE)
-
+        try:
+            data = await get_data()
+            if not data:
+                print('Error getting data.')
+            await asyncio.sleep(UPDATE)
+        except Exception as e:
+            print(e)
+            return
 
 async def set_rsn(author, name):
     if not os.path.isfile('links.json'):
