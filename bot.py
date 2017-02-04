@@ -1,4 +1,4 @@
-import discord, time, asyncio, json, sys
+import discord, time, asyncio, json, sys, os.path
 from discord.ext import commands
 from get_data import *
 
@@ -23,6 +23,35 @@ async def update_clannies():
         if not data:
             print('Error getting data.')
         await asyncio.sleep(UPDATE)
+
+
+async def set_rsn(author, name):
+    if not os.path.isfile('links.json'):
+        with open('links.json', 'w') as f:
+            json.dump({author.id: name}, f)
+            print('Created links.json')
+
+    else:
+        with open('links.json', 'r') as f:
+            names = json.loads(f.read())
+            names[author.id] = str(name)
+        with open('links.json', 'w') as f:
+            json.dump(names, f)
+
+    return f'Okay, {author.display_name}! Your name {name} has been set.'
+
+
+async def find_rsn(author):
+    try:
+        with open('links.json', 'r') as f:
+            names = json.loads(f.read())
+            if author.id in names:
+                return await check_clannie(names[author.id])
+            else:
+                return f'Sorry, {author.display_name}! I couldn\'t find your name in my database.'
+
+    except Exception as e:
+        return 'Sorry! There was an error reading the database. It might be empty: try setting your username with !rsn *name*.'
 
 
 async def check_clannie(name):
@@ -89,15 +118,28 @@ async def on_message(message):
 
     #Parse !clannie messages
     elif message.content.lower().startswith('!clannie'):
-        clannie = message.content[9:]
-        if len(clannie) > 0:
-            msg = await check_clannie(clannie)
+        name = message.content[9:]
+        if len(name) > 0:
+            msg = await check_clannie(name)
             await client.send_message(message.channel, embed = msg)
         else:
-            await client.send_message(message.channel, 'No RSN defined! (working on it)')
+            msg = await find_rsn(message.author)
+            if type(msg) == str:
+                await client.send_message(message.channel, msg)
+            else:
+                await client.send_message(message.channel, embed = msg)
+
+    elif message.content.lower().startswith('!rsn'):
+        name = message.content[5:]
+        if 0 < len(name) < 20:
+            msg = await set_rsn(message.author, name)
+            await client.send_message(message.channel, msg)
+        else:
+            await client.send_message(message.channel, 'Please enter a valid name to set!')
 
     elif message.content.startswith('!help'):
-        await client.send_message(message.channel, '**Usage**: !clannie *name*')
+        await client.send_message(message.channel, '**Usage**: \n - !clannie *name*: *name* is optional, read on! \
+\n - use !rsn *name* to bind your RSN to your Discord account. You can then use !clannie to get your info easily.')
 
 
 
